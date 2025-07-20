@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>FechasIncorrectas</fullName>
+    <active>true</active>
+    <errorConditionFormula>Fecha_Inicio__c &gt;  Fecha_Final__c</errorConditionFormula>
+    <errorMessage>La fecha de final de la agenda no puede ser posterior a la fecha de inicio</errorMessage>
+</ValidationRule>
