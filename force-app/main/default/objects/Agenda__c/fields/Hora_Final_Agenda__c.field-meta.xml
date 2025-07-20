@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Hora_Final_Agenda__c</fullName>
+    <defaultValue>TIMEVALUE(&quot;18:00:00.000&quot;)</defaultValue>
+    <label>Hora Final Agenda</label>
+    <required>true</required>
+    <trackTrending>false</trackTrending>
+    <type>Time</type>
+</CustomField>
