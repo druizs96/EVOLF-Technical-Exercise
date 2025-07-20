@@ -162,7 +162,7 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Centro</label>
     <nameField>
-        <label>Nombre de Centro</label>
+        <label>Nombre del Centro</label>
         <type>Text</type>
     </nameField>
     <pluralLabel>Centros</pluralLabel>

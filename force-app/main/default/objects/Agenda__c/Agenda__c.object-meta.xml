@@ -156,7 +156,7 @@
     <label>Agenda</label>
     <nameField>
         <displayFormat>A-{0000}</displayFormat>
-        <label>Agenda Name</label>
+        <label>Nombre de la Agenda</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Agendas</pluralLabel>
