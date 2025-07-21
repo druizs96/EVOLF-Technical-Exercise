@@ -53,6 +53,12 @@
                 <elementReference>Agenda.Especialidad__c</elementReference>
             </value>
         </inputParameters>
+        <inputParameters>
+            <name>idEspecialista</name>
+            <value>
+                <elementReference>Agenda.Especialidad__r.Especialista__c</elementReference>
+            </value>
+        </inputParameters>
         <nameSegment>AgendadoCitasHelper</nameSegment>
         <offset>0</offset>
         <storeOutputAutomatically>true</storeOutputAutomatically>
@@ -206,6 +212,20 @@
                 <elementReference>SubjectCita</elementReference>
             </value>
         </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Evento.Especialidad__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Agenda.Especialidad__c</elementReference>
+            </value>
+        </assignmentItems>
+        <assignmentItems>
+            <assignToReference>Evento.Centro__c</assignToReference>
+            <operator>Assign</operator>
+            <value>
+                <elementReference>Agenda.Centro__c</elementReference>
+            </value>
+        </assignmentItems>
         <connector>
             <targetReference>Crear_Evento</targetReference>
         </connector>
@@ -264,7 +284,7 @@
         <locationX>0</locationX>
         <locationY>0</locationY>
         <defaultConnector>
-            <targetReference>Recuperar_Horas_Disponibles</targetReference>
+            <targetReference>Recuperar_Especialista</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
@@ -428,7 +448,7 @@
     <formulas>
         <name>FechaHoraInicioCita</name>
         <dataType>DateTime</dataType>
-        <expression>DATETIMEVALUE(TEXT({!Fecha_Cita}) &amp; &quot; &quot; &amp;  {!Huecos_Disponibles} &amp; &quot;:00&quot;)</expression>
+        <expression>DATETIMEVALUE(TEXT({!Fecha_Cita}) &amp; &quot; &quot; &amp;  {!Huecos_Disponibles} &amp; &quot;:00&quot;) - (2/24)</expression>
     </formulas>
     <formulas>
         <name>FechaValida</name>
@@ -444,7 +464,7 @@ IF(ISBLANK({!Contacto_Existente.selectedChoiceLabels}), {!Contacto.FirstName} &a
     <formulas>
         <name>SubjectCita</name>
         <dataType>String</dataType>
-        <expression>{!Agenda.Centro__r.Name} &amp; &quot; : &quot; &amp; {!Agenda.Especialidad__r.Name} &amp; &quot; : &quot; &amp; {!NombreContacto}</expression>
+        <expression> {!NombreContacto} &amp; &quot; : &quot; &amp; {!Agenda.Centro__r.Name} &amp; &quot; : &quot; &amp; {!Agenda.Especialidad__r.Name}</expression>
     </formulas>
     <interviewLabel>Creación Cita {!$Flow.CurrentDateTime}</interviewLabel>
     <label>Agendado Cita</label>
@@ -501,6 +521,29 @@ IF(ISBLANK({!Contacto_Existente.selectedChoiceLabels}), {!Contacto.FirstName} &a
         </connector>
         <inputReference>Evento</inputReference>
     </recordCreates>
+    <recordLookups>
+        <name>Recuperar_Especialista</name>
+        <label>Recuperar Especialista</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Recuperar_Horas_Disponibles</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>Id</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>Agenda.Especialidad__r.Especialista__c</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>Contact</object>
+        <queriedFields>Id</queriedFields>
+        <queriedFields>Name</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
     <recordLookups>
         <name>Recuperar_RecordTypeId_Cliente</name>
         <label>Recuperar RecordTypeId Cliente</label>
@@ -571,7 +614,7 @@ IF(ISBLANK({!Contacto_Existente.selectedChoiceLabels}), {!Contacto.FirstName} &a
         </connector>
         <fields>
             <name>MensajeConfirmacionCita</name>
-            <fieldText>&lt;p&gt;Confirma la creación de la cita con los siguientes datos:&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Fecha Cita: {!FechaHoraInicioCita}&lt;/li&gt;&lt;li&gt;Centro: {!Agenda.Centro__r.Name}&lt;/li&gt;&lt;li&gt;Especialidad: {!Agenda.Especialidad__r.Name}&lt;/li&gt;&lt;li&gt;Cliente: {!NombreContacto}&lt;/li&gt;&lt;li&gt;Observaciones: {!Observaciones}&lt;/li&gt;&lt;/ul&gt;</fieldText>
+            <fieldText>&lt;p&gt;Confirma la creación de la cita con los siguientes datos:&lt;/p&gt;&lt;p&gt;&lt;br&gt;&lt;/p&gt;&lt;ul&gt;&lt;li&gt;Fecha Cita: {!FechaHoraInicioCita}&lt;/li&gt;&lt;li&gt;Centro: {!Agenda.Centro__r.Name}&lt;/li&gt;&lt;li&gt;Especialidad: {!Agenda.Especialidad__r.Name}&lt;/li&gt;&lt;li&gt;Especialista: {!Recuperar_Especialista.Name}&lt;/li&gt;&lt;li&gt;Cliente: {!NombreContacto}&lt;/li&gt;&lt;li&gt;Observaciones: {!Observaciones}&lt;/li&gt;&lt;/ul&gt;</fieldText>
             <fieldType>DisplayText</fieldType>
         </fields>
         <nextOrFinishButtonLabel>Pedir Cita</nextOrFinishButtonLabel>

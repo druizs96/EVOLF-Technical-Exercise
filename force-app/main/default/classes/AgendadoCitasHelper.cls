@@ -9,6 +9,7 @@ public with sharing class AgendadoCitasHelper {
         Date fechaCita = req.fechaCita;
         String idCentro = req.idCentro;
         String idEspecialidad = req.idEspecialidad;
+        String idEspecialista = req.idEspecialista;
 
         String query = 'SELECT Id, Hora_Inicio_Agenda__c, Hora_Final_Agenda__c ' +
                'FROM Agenda__c ' +
@@ -20,7 +21,7 @@ public with sharing class AgendadoCitasHelper {
 
         List<Event> eventosExistentes = [SELECT Id, StartDateTime 
                                             FROM Event 
-                                            WHERE WhatId =: idEspecialidad AND ActivityDate >= :fechaCita];
+                                            WHERE (Especialidad__r.Especialista__c =: idEspecialista OR Especialidad__c =: idEspecialidad) AND ActivityDate = :fechaCita];
         Set<String> horasOcupadas = new Set<String>();
         for (Event ev : eventosExistentes) {
             if (ev.StartDateTime != null) {
@@ -51,5 +52,6 @@ public with sharing class AgendadoCitasHelper {
         @InvocableVariable public Date fechaCita;
         @InvocableVariable public String idCentro;
         @InvocableVariable public String idEspecialidad;
+        @InvocableVariable public String idEspecialista;
     }
 }
