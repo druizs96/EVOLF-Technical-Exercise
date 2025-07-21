@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>64.0</apiVersion>
+    <environments>Default</environments>
+    <formulas>
+        <name>ClaveUnica</name>
+        <dataType>String</dataType>
+        <expression>{!$Record.Centro__c} + &quot;-&quot; + {!$Record.Especialista__c}+ &quot;-&quot; + LOWER({!$Record.Name})</expression>
+    </formulas>
+    <interviewLabel>Trigger Flow Clave Única Especialidad {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Trigger Flow Clave Única Especialidad</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>AUTO_LAYOUT_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordUpdates>
+        <name>Actualizar_clave_unica_especialidad</name>
+        <label>Actualizar clave única especialidad</label>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <inputAssignments>
+            <field>ClaveUnica__c</field>
+            <value>
+                <elementReference>ClaveUnica</elementReference>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>0</locationX>
+        <locationY>0</locationY>
+        <connector>
+            <targetReference>Actualizar_clave_unica_especialidad</targetReference>
+        </connector>
+        <object>Especialidad__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordBeforeSave</triggerType>
+    </start>
+    <status>Active</status>
+</Flow>
